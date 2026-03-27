@@ -12,7 +12,6 @@ namespace ASC.Web.Data
             RoleManager<IdentityRole> roleManager,
             IOptions<ApplicationSettings> options)
         {
-            // ===== 1. TẠO ROLE =====
             string[] roles = new[] { "Admin", "Engineer", "User" };
 
             foreach (var role in roles)
@@ -23,7 +22,6 @@ namespace ASC.Web.Data
                 }
             }
 
-            // ===== 2. ADMIN =====
             var adminEmail = "laithithaoly1315@gmail.com";
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
@@ -45,7 +43,6 @@ namespace ASC.Web.Data
                 }
             }
 
-            // ===== 3. ENGINEER =====
             var engEmail = "engineer@gmail.com";
             var engUser = await userManager.FindByEmailAsync(engEmail);
 
@@ -67,7 +64,6 @@ namespace ASC.Web.Data
                 }
             }
 
-            // ===== 4. USER =====
             var userEmail = "user@gmail.com";
             var normalUser = await userManager.FindByEmailAsync(userEmail);
 
