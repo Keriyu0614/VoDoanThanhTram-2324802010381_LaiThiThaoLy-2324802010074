@@ -1,0 +1,75 @@
+@model IEnumerable<ASC.Model.Models.ServiceRequest>
+@{
+    Layout = "_SecureLayout";
+    ViewBag.Title = "Chat - Danh sách yêu cầu dịch vụ";
+}
+
+<div class="col s12">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title blue-grey-text text-darken-2">
+                <i class="material-icons left">chat</i>
+                Chat Hỗ Trợ Dịch Vụ
+            </span>
+            <p class="grey-text">Chọn một yêu cầu dịch vụ để bắt đầu hoặc tiếp tục trò chuyện.</p>
+
+            @if (!Model.Any())
+            {
+                <div class="center-align" style="padding:40px;">
+                    <i class="material-icons large grey-text">chat_bubble_outline</i>
+                    <p class="grey-text">Chưa có yêu cầu dịch vụ nào.</p>
+                </div>
+            }
+            else
+            {
+                <table class="highlight responsive-table">
+                    <thead>
+                        <tr>
+                            <th>Xe</th>
+                            <th>Loại xe</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày yêu cầu</th>
+                            <th>Kỹ thuật viên</th>
+                            <th class="center">Chat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sr in Model)
+                        {
+                            <tr>
+                                <td><strong>@sr.VehicleName</strong></td>
+                                <td>@sr.VehicleType</td>
+                                <td>
+                                    <span class="badge @GetStatusBadge(sr.Status) white-text" style="border-radius:4px;padding:2px 8px;">
+                                        @sr.Status
+                                    </span>
+                                </td>
+                                <td>@sr.RequestedDate?.ToString("dd/MM/yyyy")</td>
+                                <td>@(sr.ServiceEngineer ?? "<em class='grey-text'>Chưa gán</em>")</td>
+                                <td class="center">
+                                    <a href="/ServiceRequests/Chat/Chat?serviceRequestId=@sr.RowKey"
+                                       class="btn-floating btn-small waves-effect waves-light blue-grey">
+                                        <i class="material-icons">chat</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetStatusBadge(string status) => status switch
+    {
+        "New" => "blue",
+        "InProgress" => "orange",
+        "Initiated" => "teal",
+        "RequestForInformation" => "purple",
+        "Completed" => "green",
+        "Cancelled" => "red",
+        _ => "grey"
+    };
+}
